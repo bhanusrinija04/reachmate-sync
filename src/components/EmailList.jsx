@@ -1,8 +1,16 @@
 import { Star, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { mockEmails } from "@/data/mockEmails";
 
-const EmailList = ({ selectedEmail, onEmailSelect }) => {
+const EmailList = ({ 
+  selectedEmail, 
+  onEmailSelect, 
+  selectedAccount, 
+  selectedFolder,
+  searchQuery,
+  categoryFilters 
+}) => {
   const getCategoryColor = (category) => {
     const colors = {
       interested: "bg-status-interested text-white",
@@ -14,63 +22,30 @@ const EmailList = ({ selectedEmail, onEmailSelect }) => {
     return colors[category] || "bg-muted text-muted-foreground";
   };
 
-  const emails = [
-    {
-      id: 1,
-      from: "John Doe",
-      email: "john@company.com",
-      subject: "Excited about the job opportunity!",
-      preview: "Hi, I reviewed your job posting and I'm very interested in joining your team...",
-      time: "2 hours ago",
-      category: "interested",
-      starred: true,
-      unread: true,
-    },
-    {
-      id: 2,
-      from: "Sarah Johnson",
-      email: "sarah@startup.io",
-      subject: "Re: Interview Schedule",
-      preview: "Thanks for reaching out! I'd love to schedule a meeting. Here's my calendar...",
-      time: "5 hours ago",
-      category: "meeting",
-      starred: false,
-      unread: true,
-    },
-    {
-      id: 3,
-      from: "Mike Wilson",
-      email: "mike@tech.com",
-      subject: "Out of Office",
-      preview: "I'm currently out of office until next Monday. I'll get back to you then...",
-      time: "1 day ago",
-      category: "outOfOffice",
-      starred: false,
-      unread: false,
-    },
-    {
-      id: 4,
-      from: "Emma Davis",
-      email: "emma@design.co",
-      subject: "Not interested at this time",
-      preview: "Thank you for considering me, but I'm not looking for new opportunities right now...",
-      time: "2 days ago",
-      category: "notInterested",
-      starred: false,
-      unread: false,
-    },
-    {
-      id: 5,
-      from: "Alex Chen",
-      email: "alex@business.com",
-      subject: "Partnership Inquiry",
-      preview: "I came across your company and would love to discuss potential collaboration...",
-      time: "3 days ago",
-      category: "interested",
-      starred: true,
-      unread: false,
-    },
-  ];
+  // Filter emails based on all criteria
+  const filteredEmails = mockEmails.filter(email => {
+    // Filter by account
+    if (email.accountId !== selectedAccount) return false;
+    
+    // Filter by folder
+    if (email.folder !== selectedFolder) return false;
+    
+    // Filter by category
+    if (!categoryFilters[email.category]) return false;
+    
+    // Filter by search query
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      return (
+        email.from.toLowerCase().includes(query) ||
+        email.email.toLowerCase().includes(query) ||
+        email.subject.toLowerCase().includes(query) ||
+        email.preview.toLowerCase().includes(query)
+      );
+    }
+    
+    return true;
+  });
 
   const getCategoryLabel = (category) => {
     const labels = {
@@ -83,16 +58,32 @@ const EmailList = ({ selectedEmail, onEmailSelect }) => {
     return labels[category] || category;
   };
 
+  const getFolderName = (folder) => {
+    const names = {
+      inbox: "Inbox",
+      sent: "Sent",
+      starred: "Starred",
+      archive: "Archive",
+      trash: "Trash",
+    };
+    return names[folder] || folder;
+  };
+
   return (
     <div className="w-96 border-r border-border bg-background flex flex-col h-screen">
       <div className="p-4 border-b border-border bg-gradient-subtle">
-        <h2 className="text-lg font-semibold text-foreground mb-1">All Emails</h2>
-        <p className="text-sm text-muted-foreground">{emails.length} messages</p>
+        <h2 className="text-lg font-semibold text-foreground mb-1">{getFolderName(selectedFolder)}</h2>
+        <p className="text-sm text-muted-foreground">{filteredEmails.length} messages</p>
       </div>
 
       <ScrollArea className="flex-1">
-        <div className="divide-y divide-border">
-          {emails.map((email) => (
+        {filteredEmails.length === 0 ? (
+          <div className="p-8 text-center">
+            <p className="text-muted-foreground">No emails found</p>
+          </div>
+        ) : (
+          <div className="divide-y divide-border">
+            {filteredEmails.map((email) => (
             <button
               key={email.id}
               onClick={() => onEmailSelect(email)}
@@ -137,8 +128,9 @@ const EmailList = ({ selectedEmail, onEmailSelect }) => {
                 </div>
               </div>
             </button>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </ScrollArea>
     </div>
   );

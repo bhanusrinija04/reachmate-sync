@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 
-const Sidebar = ({ selectedAccount, onAccountChange, selectedFolder, onFolderChange }) => {
+const Sidebar = ({ selectedAccount, onAccountChange, selectedFolder, onFolderChange, onCompose }) => {
   const accounts = [
     { id: 1, email: "work@company.com", unread: 12 },
     { id: 2, email: "personal@gmail.com", unread: 5 },
@@ -27,7 +27,10 @@ const Sidebar = ({ selectedAccount, onAccountChange, selectedFolder, onFolderCha
           <span className="font-semibold text-lg text-foreground tracking-tight">ReachInbox</span>
         </div>
         
-        <Button className="w-full bg-gradient-primary hover:opacity-90 text-white shadow-md hover:shadow-glow transition-all duration-300">
+        <Button 
+          onClick={onCompose}
+          className="w-full bg-gradient-primary hover:opacity-90 text-white shadow-md hover:shadow-glow transition-all duration-300"
+        >
           Compose
         </Button>
       </div>
