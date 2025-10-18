@@ -57,6 +57,25 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        status: {
+          interested: "hsl(var(--status-interested))",
+          meeting: "hsl(var(--status-meeting))",
+          notInterested: "hsl(var(--status-not-interested))",
+          spam: "hsl(var(--status-spam))",
+          outOfOffice: "hsl(var(--status-out-of-office))",
+        },
+      },
+      backgroundImage: {
+        'gradient-primary': 'var(--gradient-primary)',
+        'gradient-subtle': 'var(--gradient-subtle)',
+      },
+      boxShadow: {
+        'sm': 'var(--shadow-sm)',
+        'md': 'var(--shadow-md)',
+        'lg': 'var(--shadow-lg)',
+      },
+      transitionProperty: {
+        'smooth': 'var(--transition-smooth)',
       },
       borderRadius: {
         lg: "var(--radius)",
