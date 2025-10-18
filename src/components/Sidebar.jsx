@@ -20,14 +20,14 @@ const Sidebar = ({ selectedAccount, onAccountChange, selectedFolder, onFolderCha
   return (
     <div className="w-64 border-r border-border bg-card flex flex-col h-screen">
       <div className="p-4 border-b border-border">
-        <div className="flex items-center gap-2 mb-4">
-          <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center">
+        <div className="flex items-center gap-2 mb-4 animate-fade-in">
+          <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center shadow-md">
             <Mail className="w-5 h-5 text-white" />
           </div>
-          <span className="font-semibold text-lg text-foreground">ReachInbox</span>
+          <span className="font-semibold text-lg text-foreground tracking-tight">ReachInbox</span>
         </div>
         
-        <Button className="w-full bg-gradient-primary hover:opacity-90 text-white shadow-md">
+        <Button className="w-full bg-gradient-primary hover:opacity-90 text-white shadow-md hover:shadow-glow transition-all duration-300">
           Compose
         </Button>
       </div>
@@ -43,16 +43,16 @@ const Sidebar = ({ selectedAccount, onAccountChange, selectedFolder, onFolderCha
                 <button
                   key={account.id}
                   onClick={() => onAccountChange(account.id)}
-                  className={`w-full text-left px-3 py-2 rounded-lg transition-all ${
+                  className={`w-full text-left px-3 py-2 rounded-lg transition-all duration-200 ${
                     selectedAccount === account.id
                       ? "bg-secondary text-foreground shadow-sm"
-                      : "text-muted-foreground hover:bg-secondary/50"
+                      : "text-muted-foreground hover:bg-secondary/50 hover:translate-x-1"
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-sm truncate">{account.email}</span>
+                    <span className="text-sm truncate font-medium">{account.email}</span>
                     {account.unread > 0 && (
-                      <Badge variant="secondary" className="ml-2 bg-primary text-primary-foreground">
+                      <Badge variant="secondary" className="ml-2 bg-primary text-primary-foreground shadow-sm">
                         {account.unread}
                       </Badge>
                     )}
@@ -71,16 +71,16 @@ const Sidebar = ({ selectedAccount, onAccountChange, selectedFolder, onFolderCha
                 <button
                   key={folder.id}
                   onClick={() => onFolderChange(folder.id)}
-                  className={`w-full text-left px-3 py-2 rounded-lg transition-all flex items-center gap-3 ${
+                  className={`w-full text-left px-3 py-2 rounded-lg transition-all duration-200 flex items-center gap-3 ${
                     selectedFolder === folder.id
                       ? "bg-secondary text-foreground shadow-sm"
-                      : "text-muted-foreground hover:bg-secondary/50"
+                      : "text-muted-foreground hover:bg-secondary/50 hover:translate-x-1"
                   }`}
                 >
                   <folder.icon className="w-4 h-4" />
-                  <span className="text-sm flex-1">{folder.name}</span>
+                  <span className="text-sm flex-1 font-medium">{folder.name}</span>
                   {folder.count > 0 && (
-                    <span className="text-xs text-muted-foreground">{folder.count}</span>
+                    <span className="text-xs text-muted-foreground bg-muted px-1.5 py-0.5 rounded">{folder.count}</span>
                   )}
                 </button>
               ))}

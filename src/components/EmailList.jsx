@@ -85,8 +85,8 @@ const EmailList = ({ selectedEmail, onEmailSelect }) => {
 
   return (
     <div className="w-96 border-r border-border bg-background flex flex-col h-screen">
-      <div className="p-4 border-b border-border">
-        <h2 className="text-lg font-semibold text-foreground mb-2">All Emails</h2>
+      <div className="p-4 border-b border-border bg-gradient-subtle">
+        <h2 className="text-lg font-semibold text-foreground mb-1">All Emails</h2>
         <p className="text-sm text-muted-foreground">{emails.length} messages</p>
       </div>
 
@@ -96,20 +96,22 @@ const EmailList = ({ selectedEmail, onEmailSelect }) => {
             <button
               key={email.id}
               onClick={() => onEmailSelect(email)}
-              className={`w-full text-left p-4 transition-all hover:bg-secondary/50 ${
-                selectedEmail?.id === email.id ? "bg-secondary" : ""
-              } ${email.unread ? "bg-card" : ""}`}
+              className={`w-full text-left p-4 transition-all duration-200 hover:bg-secondary/50 hover:shadow-md ${
+                selectedEmail?.id === email.id ? "bg-secondary shadow-md" : ""
+              } ${email.unread ? "bg-card" : ""} border-l-4 ${
+                selectedEmail?.id === email.id ? "border-primary" : "border-transparent"
+              }`}
             >
               <div className="flex items-start gap-3">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className={`text-sm font-medium truncate ${
+                    <span className={`text-sm font-semibold truncate ${
                       email.unread ? "text-foreground" : "text-muted-foreground"
                     }`}>
                       {email.from}
                     </span>
                     {email.starred && (
-                      <Star className="w-4 h-4 fill-amber-400 text-amber-400 flex-shrink-0" />
+                      <Star className="w-4 h-4 fill-amber-400 text-amber-400 flex-shrink-0 drop-shadow-sm" />
                     )}
                   </div>
                   
@@ -124,10 +126,10 @@ const EmailList = ({ selectedEmail, onEmailSelect }) => {
                   </p>
                   
                   <div className="flex items-center gap-2">
-                    <Badge className={`text-xs ${getCategoryColor(email.category)}`}>
+                    <Badge className={`text-xs shadow-sm ${getCategoryColor(email.category)}`}>
                       {getCategoryLabel(email.category)}
                     </Badge>
-                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                    <div className="flex items-center gap-1 text-xs text-muted-foreground font-medium">
                       <Clock className="w-3 h-3" />
                       <span>{email.time}</span>
                     </div>
