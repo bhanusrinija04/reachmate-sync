@@ -1,4 +1,4 @@
-import { Star, Reply, Forward, Archive, Trash2, MoreVertical, Sparkles } from "lucide-react";
+import { Star, Reply, Forward, Archive, Trash2, MoreVertical, Sparkles, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
